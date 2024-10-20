@@ -73,7 +73,7 @@ def encode_audio_common(
 
 @app.cls(
     image=image,
-    gpu="A10G",
+    gpu="A100",
     # mounts=[modal.Mount.from_local_dir("server", remote_path="/root/server")],
     keep_warm=1,
 )
