@@ -6,7 +6,7 @@ import json
 import os
 
 
-SERVER_URL = 'http://localhost:8000'
+SERVER_URL = 'https://deeptrust-ai-dev--xtts-xtts-web.modal.run'
 OUTPUT = "./demo_outputs"
 cloned_speakers = {}
 
@@ -102,15 +102,27 @@ if __name__ == "__main__":
     print("Warming up server...")
     with open("test/default_speaker.json", "r") as fp:
         warmup_speaker = json.load(fp)
-    resp = requests.post(
-        SERVER_URL + "/tts",
-        json={
-            "text": "This is a warmup request.",
-            "language": "en",
-            "speaker_embedding": warmup_speaker["speaker_embedding"],
-            "gpt_cond_latent": warmup_speaker["gpt_cond_latent"],
-        }
-    )
+    try:
+        resp = requests.post(
+            SERVER_URL + "/tts",
+            json={
+                "text": "This is a warmup request.",
+                "language": "en",
+                "speaker_embedding": warmup_speaker["speaker_embedding"],
+                "gpt_cond_latent": warmup_speaker["gpt_cond_latent"],
+            },
+            headers={"Content-Type": "application/json"}
+        )
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        print(f"Response content: {e.response.content}")
+        if e.response.status_code == 422:
+            print("Check if all required fields are present and have correct data types")
+        raise
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
     resp.raise_for_status()
     print("Starting the demo...")
     demo.launch(
