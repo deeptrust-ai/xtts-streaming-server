@@ -1,0 +1,38 @@
+[project]
+name = "xtts-streaming-server"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Aman Ibrahim", email = "amanmibra@gmail.com" }
+]
+dependencies = [
+    "modal>=0.64.199",
+    "uvicorn[standard]==0.23.2",
+    "fastapi==0.95.2",
+    "deepspeed==0.10.3",
+    "pydantic==1.10.13",
+    "python-multipart==0.0.6",
+    "typing-extensions>=4.8.0",
+    "numpy==1.24.3",
+    "cutlet",
+    "mecab-python3==1.0.6",
+    "unidic-lite==1.0.8",
+    "unidic==1.1.0",
+    "setuptools>=75.2.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xtts_streaming_server"]
